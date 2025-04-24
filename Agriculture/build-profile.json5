@@ -1,6 +1,18 @@
 {
   "app": {
     "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "certpath": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.cer",
+          "storePassword": "0000001B43E3C3B8B3C232542273EED6347C1F01549B8108E5312DC7BB4AAF86EF11ECB1750E5D08CE741A",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B100554C499E13F88AA687048C89F93560BCE9570EB8209FF380D1E6D28968843433F503FE4A08A",
+          "profile": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.p12"
+        }
+      }
     ],
     "products": [
       {

@@ -20,28 +20,30 @@ export struct GrowthStage {
       // 生长进度时间轴
       Column() {
         Text('生长阶段进度')
-          .fontSize(28)
+          .fontSize(22)
           .fontWeight(FontWeight.Bold)
-          .margin({ bottom: 20 })
+          .margin({ bottom: 15 })
 
         ForEach(this.growthStages, (item) => {
           Row({space:20}) {
             Text(item.stage)
               .width('20%')
+              .fontSize(12)
             Progress({ value: item.progress, total: 100 })
               .width('50%')
               .color('#4CAF50')
             Text(item.date)
               .width('20%')
+              .fontSize(12)
               .fontColor('#666')
           }
-          .padding(8)
+          .padding(5)
         })
       }
       .width('105%')
-      .height(276)
+      .height(205)
       .padding(12)
-      .backgroundColor('#FFF')
+      .backgroundColor('#e2efe5')
       .borderRadius(12)
       .shadow({ radius: 4, color: '#10000000' })
     }

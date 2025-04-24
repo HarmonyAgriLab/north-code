@@ -4,6 +4,7 @@ import common from '@ohos.app.ability.common';
 import window from '@ohos.window';
 import AGCCloud from '../AGC-Cloud/AGC-Cloud';
 import { BreakpointKey, BreakpointSystem } from '../common/breakpointsystem'
+import { Air } from '../models/Air'
 
 @Entry
 @Component

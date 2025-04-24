@@ -6,6 +6,8 @@ import window from '@ohos.window';
 import { initialize } from '@hw-agconnect/hmcore';
 import util from '@ohos.util';
 import { async } from '@hw-agconnect/cloud/src/main/ets/storage/upload/task';
+import relationalStore from '@ohos.data.relationalStore'; // 导入模块
+import RdbUtils from '../common/rdbUtils/RdbUtils';
 
 export default class EntryAbility extends UIAbility {
   async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
@@ -42,6 +44,22 @@ export default class EntryAbility extends UIAbility {
         return;
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content. Data: %{public}s', JSON.stringify(data) ?? '');
+    });
+
+    const STORE_CONFIG = {
+      name: 'RdbTest.db', // 数据库文件名
+      securityLevel: relationalStore.SecurityLevel.S1 // 数据库安全级别
+    };
+
+    relationalStore.getRdbStore(this.context, STORE_CONFIG, (err, store) => {
+      if (err) {
+        console.error(`Failed to get RdbStore. Code:${err.code}, message:${err.message}`);
+        return;
+      }
+      console.info(`Succeeded in getting RdbStore.`);
+      //保存store, 方便后面我们对数据库的操作
+      RdbUtils.setStore(store)
+
     });
   }
 
