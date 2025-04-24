@@ -50,13 +50,18 @@ interface Breakpoint {
 export const BreakpointKey = 'Breakpoint'
 
 export class BreakpointSystem {
-  private currentBreakpoint: string = 'md'
+  private currentBreakpoint: string = 'lg'
   // 定义断点值
-  private breakpoints: Breakpoint[] = [
-    { name: 'xs', size: 0 }, { name: 'sm', size: 320 },
-    { name: 'md', size: 600 }, { name: 'lg', size: 840 }
-  ]
+  // private breakpoints: Breakpoint[] = [
+  //   { name: 'xs', size: 0 }, { name: 'sm', size: 320 },
+  //   { name: 'md', size: 600 }, { name: 'lg', size: 840 }
+  // ]
 
+  // 依据RK3588重新设计的尺寸
+  private breakpoints: Breakpoint[] = [
+     { name: 'sm', size: 250 },
+     { name: 'lg', size: 670 }
+  ]
   // 更新 AppStorage 中保存的断点信息
   private updateCurrentBreakpoint(breakpoint: string) {
     if (this.currentBreakpoint !== breakpoint) {

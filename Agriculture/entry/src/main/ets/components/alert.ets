@@ -10,25 +10,25 @@ export struct alert {
         .margin({ left: 8, right: 8 })
 
       Image(icon)
-        .width(32)
-        .height(32)
-        .margin({ left: 8, right: 12 })
+        .width(26)
+        .height(26)
+        .margin({ left: 5, right: 5 })
 
       Column({ space: 2 }) {
         Text(content)
-          .fontSize(16)
+          .fontSize(12)
           .fontColor('#2d3436')
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
 
         Text(time)
-          .fontSize(14)
+          .fontSize(10)
           .fontColor('#636e72')
       }
       .layoutWeight(1)
     }
-    .height(52)
-    .padding({ right: 8 })
+    .height(35)
+    .padding({ right: 5 })
     .backgroundColor('#ffffff')
     .borderRadius(6)
     .shadow({ radius: 2, color: '#1f000000', offsetX: 1, offsetY: 1 })
@@ -39,11 +39,11 @@ export struct alert {
     Column() {
       Row({space:15}) {
         Image($r('app.media.alarm'))
-        .width(28)
-        .height(28)
+        .width(22)
+        .height(22)
 
         Text('告警信息')
-          .fontSize(24)
+          .fontSize(20)
           .fontColor('#2d3436')
           .fontWeight(500)
 

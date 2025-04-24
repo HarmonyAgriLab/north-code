@@ -4,8 +4,13 @@ import { devices } from '../components/devices'
 import { home } from "../components/home"
 import { settings } from "../components/settings"
 import {Environment} from "../components/environment"
-import {Account} from '../common/account'
+import { Account } from '../common/account'
 import { BreakpointKey, BreakpointSystem } from '../common/breakpointsystem'
+import relationalStore from '@ohos.data.relationalStore' // 导入模块
+import RdbUtils from '../common/rdbUtils/RdbUtils'
+import { Air } from '../models/Air'
+import { Soil } from '../models/Soil'
+
 
 @Entry
 @Component
@@ -21,14 +26,20 @@ struct Index {
   // 3. 注册及移除事件
   aboutToAppear(): void {
     this.breakpointSystem.register()
+    this.initAirTable()
+    this.initSoilTable()
+
   }
 
   aboutToDisappear(): void {
     this.breakpointSystem.unregister()
   }
 
+  @State list1:Array<Air> = [];
+  @State list2:Array<Soil> = [];
 
   private tabsController: TabsController = new TabsController()
+
   // @State userAccount: Account = new Account('SZTU', 'BDIer', '男', '12366667890', '4')
 
   async onPageShow() {
@@ -43,10 +54,10 @@ struct Index {
   tabBuilder(index: number, title: string, icon: Resource, iconSelected: Resource) {
     Column({ space: 3 }) {
       Image(this.curIndex === index ? iconSelected : icon)
-        .width(this.currentBreakpoint == 'lg' ? 40 : 16)
+        .width(this.currentBreakpoint == 'lg' ? 30 : 16)
 
       Text(title)
-        .fontSize(this.currentBreakpoint == 'lg' ? 30 : 16)
+        .fontSize(this.currentBreakpoint == 'lg' ? 20 : 16)
         .fontColor(this.curIndex === index ? '#007DFF' : '#000')
 
     }
@@ -89,4 +100,57 @@ struct Index {
     .backgroundColor('#ffffffff')
 
   }
+
+  initAirTable() {
+    const SQL_CREATE_TABLE_Air = 'CREATE TABLE IF NOT EXISTS Air' +
+      ' (AID INTEGER PRIMARY KEY, ' +
+      'AIR_TEMP INTEGER, ' +
+      'AIR_HUMID INTEGER, ' +
+      'DEVICE_MAC TEXT NOT NULL, ' +
+      'UPLOAD_TIME TEXT NOT NULL)'; // 建Air表Sql语句
+
+    RdbUtils.executeSql(SQL_CREATE_TABLE_Air)
+      .then(() =>{
+        console.log('successfully created table_Air');
+      }).catch((err) => {
+      openDialog(err);
+    })
+
+  }
+
+  initSoilTable() {
+    const SQL_CREATE_TABLE_Soil = 'CREATE TABLE IF NOT EXISTS Soil' +
+      ' (SID INTEGER PRIMARY KEY, ' +
+      'MOISTURE_VALUE INTEGER, ' +
+      'TEMPERATURE_VALUE INTEGER, ' +
+      'CONDUCTIVITY_VALUE INTEGER, ' +
+      'PH_VALUE INTEGER, ' +
+      'NITROGEN INTEGER, ' +
+      'PHOSPHORUS INTEGER, ' +
+      'POTASSIUM INTEGER, ' +
+      'SDEVICE_MAC TEXT NOT NULL, ' +
+      'SUPLOAD_TIME TEXT NOT NULL)'; // 建Soil表Sql语句
+
+    RdbUtils.executeSql(SQL_CREATE_TABLE_Soil)
+      .then(() =>{
+        console.log('successfully created table_Soil');
+      }).catch((err) => {
+      openDialog(err);
+    })
+
+  }
+
+
+}
+
+function openDialog(text: string) {
+  AlertDialog.show(
+    {
+      title: 'title',
+      message: text,
+      autoCancel: true,
+      alignment: DialogAlignment.Bottom,
+      offset: { dx: 0, dy: -20 },
+    }
+  )
 }

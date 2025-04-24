@@ -1,12 +1,31 @@
+import { ImageFetcher } from '../models/ImageFetcher';
+import { Air } from '../models/Air'
+import { BreakpointKey, BreakpointSystem, BreakPointType } from '../common/breakpointsystem'
+
 @Component
 export struct environment {
+  // 1. 引入 AppStorage 中保存的断点值
+  @StorageLink(BreakpointKey)
+  currentBreakpoint: string = 'lg'
+  // 2. 实例化 BreakpointSystem对象
+  breakpointSystem: BreakpointSystem = new BreakpointSystem()
+
+  // 3. 注册及移除事件
+  aboutToAppear(): void {
+    this.breakpointSystem.register()
+  }
+
+  aboutToDisappear(): void {
+    this.breakpointSystem.unregister()
+  }
+
   build() {
     Column() {
       Text('环境参数')
-        .fontSize(AppStorage.get('DeviceType') == 'pad' ? 36 : 36)
+        .fontSize(this.currentBreakpoint == 'lg' ? 28 : 20)
         .fontColor('#2c3e50')
         .fontWeight(FontWeight.Bold)
-        .margin({ top: 20, bottom: 15 })
+        .margin({ top: 15, bottom: 10 })
 
       Grid() {
         GridItem() {
@@ -24,8 +43,8 @@ export struct environment {
       }
       .columnsTemplate('1fr 1fr')
       .rowsTemplate('1fr 1fr')
-      .columnsGap(25)
-      .rowsGap(25)
+      .columnsGap(16)
+      .rowsGap(16)
       .width('90%')
       .height('60%')
     }
@@ -37,19 +56,20 @@ export struct environment {
 
   @Builder
   dataItem(title: string, value: string, color: string) {
-    Column({ space: 8 }) {
+    Column({ space: 6 }) {
       Text(value)
-        .fontSize(AppStorage.get('DeviceType') == 'pad' ? 32 : 20)
+        .fontSize(this.currentBreakpoint == 'lg' ? 15 : 15)
+
         .fontColor('#ffffff')
         .fontWeight(FontWeight.Bold)
 
       Text(title)
-        .fontSize(AppStorage.get('DeviceType') == 'pad' ? 24 : 14)
+        .fontSize(this.currentBreakpoint == 'lg' ? 10 : 10)
         .fontColor('#ffffffcc')
     }
     .width('100%')
     .height('100%')
-    .padding(12)
+    .padding(8)
     .backgroundColor(color)
     .borderRadius(36)
     .shadow({
@@ -105,11 +125,11 @@ export struct Environment {
           Column({space: 20}) {
             Column() {
               Text('当前土壤')
-                .fontSize(35)
+                .fontSize(26)
                 .fontColor(Color.Brown)
                 .fontWeight(FontWeight.Bolder)
               Text('3号水稻地')
-                .fontSize(35)
+                .fontSize(26)
                 .fontColor(Color.Brown)
                 .fontWeight(FontWeight.Bolder)
             }
@@ -117,7 +137,7 @@ export struct Environment {
 
             Column() {
               Text('当前天气')
-                .fontSize(40)
+                .fontSize(32)
                 .fontColor(Color.Yellow)
                 .fontWeight(FontWeight.Bolder)
             }
@@ -126,23 +146,23 @@ export struct Environment {
             // 天气模块
             Column() {
               Text("温度：13°C")
-                .fontSize(40)
+                .fontSize(30)
                 .fontColor(Color.White)
                 .margin({ bottom: 15 })
 
               Row({ space: 25 }) {
                 Image($r("app.media.cloudy"))
-                  .width(60)
-                  .height(60)
+                  .width(40)
+                  .height(40)
                   .objectFit(ImageFit.Contain)
 
                 Text("多云")
-                  .fontSize(40)
+                  .fontSize(26)
                   .fontColor(Color.White)
               }
             }
-            .width(250)
-            .height(250)
+            .width(180)
+            .height(180)
             .justifyContent(FlexAlign.Center)
             .backgroundColor("#1f7e3e")
             .borderRadius(999)
@@ -160,7 +180,7 @@ export struct Environment {
 
             Column() {
               Text('大棚室内温度')
-                .fontSize(40)
+                .fontSize(32)
                 .fontColor('#ebc594')
                 .fontWeight(FontWeight.Bolder)
             }
@@ -169,11 +189,11 @@ export struct Environment {
             // 大棚空气温度
             Column({space:15}) {
               // 第一行：标题+数值
-              Row({ space: 25 }) {
+              Row({ space: 15 }) {
                 Column() {
                   Image($r('app.media.temperature'))
-                    .width(60)
-                    .height(60)
+                    .width(40)
+                    .height(40)
                     .objectFit(ImageFit.Contain)
                 }
                 .borderRadius(999)
@@ -181,18 +201,18 @@ export struct Environment {
 
 
                 Text("26°C")
-                  .fontSize(40)
+                  .fontSize(30)
                   .fontColor(Color.White)
               }
 
               // 第二行：状态指示
               Text("温度偏低")
-                .fontSize(40)
+                .fontSize(30)
                 .fontColor(Color.Red)
                 .fontWeight(FontWeight.Bold)
             }
-            .width(250)
-            .height(250)
+            .width(180)
+            .height(180)
             .justifyContent(FlexAlign.Center)
             .backgroundColor('#0b722f')
             .borderRadius(999)
@@ -208,7 +228,7 @@ export struct Environment {
 
             Column() {
               Text('大棚室内湿度')
-                .fontSize(40)
+                .fontSize(32)
                 .fontColor(Color.Blue)
                 .fontWeight(FontWeight.Bolder)
             }
@@ -216,28 +236,28 @@ export struct Environment {
 
             // 大棚空气湿度
             Column({space:15}) {
-              Row({ space: 25 }) {
+              Row({ space: 15 }) {
                 Column() {
                   Image($r('app.media.humidity'))
-                    .width(60)
-                    .height(60)
+                    .width(40)
+                    .height(40)
                     .objectFit(ImageFit.Contain)
                 }
                 .borderRadius(999)
                 .backgroundColor('#6ebaea')
 
                 Text("85%")
-                  .fontSize(40)
+                  .fontSize(30)
                   .fontColor(Color.White)
               }
 
               Text("湿度正常")
-                .fontSize(40)
+                .fontSize(30)
                 .fontColor(Color.White)
                 .fontWeight(FontWeight.Bold)
             }
-            .width(250)
-            .height(250)
+            .width(180)
+            .height(180)
             .justifyContent(FlexAlign.Center)
             .backgroundColor("#ff168c36")
             .borderRadius(999)
@@ -253,13 +273,16 @@ export struct Environment {
 
             Column() {
               Image($r('app.media.crop'))
-                .width(100)
-                .onClick(()=> {
-
+                .width(90)
+                .onClick(async ()=>{
+                  console.log("ok")
+                  let arr = await Air.getNewData()
+                  // console.log('Air data is ', arr[0].toString())
+                  console.log("good")
                 })
             }
-            .width(150)
-            .height(150)
+            .width(120)
+            .height(120)
             .justifyContent(FlexAlign.Center)
             .borderWidth(3)
             .backgroundColor('#ffc1eec1')
@@ -273,18 +296,18 @@ export struct Environment {
         .tabBar(this.tabBuilder(0,'空气模块'))
 
         TabContent() {
-          Column({space: 20}) {
-            Row({space: 50}) {
+          Column({space: 10}) {
+            Row({space: 30}) {
               Column({ space: 10 }) {
                 Row() {
                   Text("当前土壤：")
-                    .fontSize(30)
+                    .fontSize(22)
                     .alignSelf(ItemAlign.Start)
                     .fontColor(Color.White)
                     .padding({left: 10})
 
                   Text("3号水稻地")
-                    .fontSize(30)
+                    .fontSize(22)
                     .alignSelf(ItemAlign.Start)
                     .fontColor(Color.White)
                     .padding({left: 10})
@@ -295,11 +318,11 @@ export struct Environment {
                     Column() {
                       Row({space:10}) {
                         Text("当前土壤温度：")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontColor(Color.White)
 
                         Text("22°C")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontColor(Color.White)
 
                       }
@@ -310,7 +333,7 @@ export struct Environment {
 
                       Column() {
                         Text("偏低")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontWeight(800)
                           .fontColor(Color.Red)
                       }
@@ -321,11 +344,11 @@ export struct Environment {
                     Column() {
                       Row({space:10}) {
                         Text("当前土壤湿度：")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontColor(Color.White)
 
                         Text("80%")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontColor(Color.White)
                       }
                       .width('90%')
@@ -335,7 +358,7 @@ export struct Environment {
 
                       Column() {
                         Text("正常")
-                          .fontSize(30)
+                          .fontSize(22)
                           .fontWeight(800)
                           .fontColor('#ff00f7ff')
                       }
@@ -347,8 +370,8 @@ export struct Environment {
                 .height('70%')
                 .rowsTemplate('1fr 1fr')
               }
-              .width(400)
-              .height(260)
+              .width(320)
+              .height(200)
               .borderRadius(10)
               .justifyContent(FlexAlign.SpaceEvenly)
               .backgroundColor("#ff0b722f")
@@ -360,24 +383,24 @@ export struct Environment {
               Column({ space: 10 }) {
                 Row() {
                   Text("土壤导电率:")
-                    .fontSize(30)
+                    .fontSize(22)
                     .padding({left: 10})
                     .fontColor(Color.White)
 
                   Text("36%")
-                    .fontSize(30)
+                    .fontSize(22)
                     .padding({left: 10})
                     .fontColor(Color.White)
                 }
 
                 Image($r('app.media.O2CO2'))
-                  .width(360)
-                  .height(180)
+                  .width(300)
+                  .height(150)
                   .objectFit(ImageFit.Fill)
 
               }
-              .width(400)
-              .height(260)
+              .width(320)
+              .height(200)
               .borderRadius(10)
               .justifyContent(FlexAlign.SpaceEvenly)
               .backgroundColor("#ff0b722f")
@@ -389,11 +412,11 @@ export struct Environment {
             .margin({top:5})
 
 
-            Row({space: 50}) {
+            Row({space: 30}) {
               Column({ space: 10 }) {
                 Row() {
                   Text("大棚空气湿度")
-                    .fontSize(40)
+                    .fontSize(30)
                     .alignSelf(ItemAlign.Start)
                     .fontColor(Color.White)
                     .padding({left: 10})
@@ -402,21 +425,21 @@ export struct Environment {
 
                 Row({space:10}) {
                   Text("当前土壤PH:")
-                    .fontSize(35)
+                    .fontSize(25)
                     .fontColor(Color.White)
 
                   Text("8.1")
-                    .fontSize(35)
+                    .fontSize(25)
                     .fontColor(Color.White)
                 }
 
                 Text("偏高")
-                  .fontSize(35)
+                  .fontSize(25)
                   .fontWeight(800)
                   .fontColor(Color.Red)
               }
-              .width(400)
-              .height(280)
+              .width(320)
+              .height(200)
               .borderRadius(10)
               .justifyContent(FlexAlign.SpaceEvenly)
               .backgroundColor("#0b6f6c")
@@ -428,14 +451,14 @@ export struct Environment {
                 Column({ space: 10 }) {
 
                   Text("土壤营养元素含量")
-                    .fontSize(30)
+                    .fontSize(22)
                     .fontColor(Color.White)
                     .padding({ left: 10 })
 
                   Row({space:10}) {
                     this.myText("氮（N）: 36%")
                     Text("正常")
-                      .fontSize(30)
+                      .fontSize(22)
                       .fontWeight(800)
                       .fontColor('#ff00f7ff')
                   }
@@ -443,7 +466,7 @@ export struct Environment {
                   Row({space:10}) {
                     this.myText("磷（P）: 17%")
                     Text("偏低")
-                      .fontSize(30)
+                      .fontSize(22)
                       .fontWeight(800)
                       .fontColor(Color.Red)
                   }
@@ -451,15 +474,15 @@ export struct Environment {
                   Row({space:10}) {
                     this.myText("钾（K）: 24%")
                     Text("正常")
-                      .fontSize(30)
+                      .fontSize(22)
                       .fontWeight(800)
                       .fontColor('#ff00f7ff')
                   }
 
 
                 }
-                .width(400)
-                .height(280)
+                .width(320)
+                .height(200)
                 .borderRadius(10)
                 .justifyContent(FlexAlign.SpaceEvenly)
                 .backgroundColor("#0b6f6c")
@@ -471,17 +494,17 @@ export struct Environment {
 
             Column() {
               Image($r('app.media.crop'))
-                .width(100)
+                .width(65)
                 .onClick(()=> {
 
                 })
             }
-            .width(120)
-            .height(120)
+            .width(80)
+            .height(80)
             .borderWidth(3)
             .backgroundColor('#ffc1eec1')
             .borderRadius(70)
-            .position({x:400,y:220})
+            .position({x:320,y:170})
           }
           .width('100%')
           .height('100%')
@@ -506,11 +529,11 @@ export struct Environment {
   myText(text: string){
     Row() {
       Text(text)
-        .fontSize(25)
+        .fontSize(20)
         .fontWeight(FontWeight.Bold)
     }
-    .width(280)
-    .height(45)
+    .width(200)
+    .height(30)
     .backgroundColor('#ffffffff')
     .justifyContent(FlexAlign.Center)
     .borderRadius(15)
@@ -533,10 +556,14 @@ export default struct MessageDialog {
         .padding({ top: 10 })
 
       Column() {
-        Image($r('app.media.column_chart'))
-          .width(780)
-          .height(450)
-          .objectFit(ImageFit.Fill)
+        Image(ImageFetcher.fetchImage('humid_detector2_pie.png'))
+          .width(400)
+          .onClick(()=>{
+            console.log("good")
+          })
+          // .width(780)
+          // .height(450)
+          // .objectFit(ImageFit.Fill)
       }
       .padding(5)
 

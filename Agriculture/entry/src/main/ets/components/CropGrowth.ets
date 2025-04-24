@@ -1,3 +1,5 @@
+import { BreakpointKey, BreakpointSystem, BreakPointType } from '../common/breakpointsystem'
+
 // 氮磷钾含量
 interface Nutrient {
   nitrogen: number // 氮含量
@@ -13,8 +15,24 @@ interface GrowthData {
   nutrient: Nutrient // 氮磷钾含量
 }
 
+@Preview
 @Component
 export struct CropGrowth {
+  // 1. 引入 AppStorage 中保存的断点值
+  @StorageLink(BreakpointKey)
+  currentBreakpoint: string = 'lg'
+  // 2. 实例化 BreakpointSystem对象
+  breakpointSystem: BreakpointSystem = new BreakpointSystem()
+
+  // 3. 注册及移除事件
+  aboutToAppear(): void {
+    this.breakpointSystem.register()
+  }
+
+  aboutToDisappear(): void {
+    this.breakpointSystem.unregister()
+  }
+
   @State growthData: GrowthData = {
     stage: '抽穗期',
     health: 85,
@@ -30,7 +48,7 @@ export struct CropGrowth {
     Column({ space: 10 }) {
       // 标题
       Text('农作物生长监测 - 3号水稻田')
-        .fontSize(AppStorage.get('DeviceType') == 'pad' ? 32 : 28)
+        .fontSize(this.currentBreakpoint == 'lg' ? 22 : 14)
         .fontColor('#2c3e50')
         .fontWeight(FontWeight.Bold)
 
@@ -51,10 +69,10 @@ export struct CropGrowth {
       }
       .columnsTemplate('1fr 1fr')
       .rowsTemplate('1fr 1fr')
-      .columnsGap(12)
-      .rowsGap(12)
+      .columnsGap(10)
+      .rowsGap(10)
       .width('95%')
-      .height(210)
+      .height(150)
 
 
     }
@@ -68,19 +86,19 @@ export struct CropGrowth {
   growthIndicator(title: string, value: string, icon: Resource) {
     Column({ space: 5 }) {
       Image(icon)
-        .width(30)
-        .height(30)
+        .width(20)
+        .height(20)
 
       Text(value)
-        .fontSize(16)
+        .fontSize(12)
         .fontColor('#4CAF50')
 
       Text(title)
-        .fontSize(14)
+        .fontSize(10)
         .fontColor('#666')
     }
-    .width(180)
-    .padding(16)
+    .width(135)
+    .padding(10)
     .backgroundColor('#FFFFFF')
     .borderRadius(12)
     .shadow({ radius: 4, color: '#10000000' })
