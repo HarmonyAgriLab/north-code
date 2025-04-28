@@ -1,6 +1,8 @@
 import { ImageFetcher } from '../models/ImageFetcher';
 import { Air } from '../models/Air'
 import { BreakpointKey, BreakpointSystem, BreakPointType } from '../common/breakpointsystem'
+import { Soil } from '../models/Soil';
+import { ObjectWrapper } from '@hw-agconnect/cloud/src/main/ets/database/sync/ObjectWrapper';
 
 @Component
 export struct environment {
@@ -10,8 +12,13 @@ export struct environment {
   // 2. 实例化 BreakpointSystem对象
   breakpointSystem: BreakpointSystem = new BreakpointSystem()
 
+  @Consume airArr: Air[]
+  @Consume soilArr: Soil[]
+
+
+
   // 3. 注册及移除事件
-  aboutToAppear(): void {
+  async aboutToAppear(): Promise<void> {
     this.breakpointSystem.register()
   }
 
@@ -29,16 +36,16 @@ export struct environment {
 
       Grid() {
         GridItem() {
-          this.dataItem('大棚温度', '23°C', '#e74c3c')
+          this.dataItem('大棚温度', this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].temperature_value.toString() : '23°C', '#e74c3c')
         }
         GridItem() {
-          this.dataItem('大棚湿度', '74%', '#3498db')
+          this.dataItem('大棚湿度', (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].moisture_value.toString() : '74') + '%', '#3498db')
         }
         GridItem() {
-          this.dataItem('土壤PH值', '7.1', '#2ecc71')
+          this.dataItem('土壤PH值', this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].pH_value.toString() : '7.1', '#2ecc71')
         }
         GridItem() {
-          this.dataItem('土壤导电率', '52%', '#9b59b6')
+          this.dataItem('土壤导电率', (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].conductivity_value.toString() : '52') + '%', '#9b59b6')
         }
       }
       .columnsTemplate('1fr 1fr')
@@ -86,6 +93,9 @@ export struct Environment {
   @State fontColor: string = '#fffff'
   @State selectedFontColor: string = '#007DFF'
   @State curIndex: number = 0
+
+  @Consume airArr: Air[]
+  @Consume soilArr: Soil[]
 
   @Builder tabBuilder(index: number, title: string) {
     Column() {
@@ -145,7 +155,7 @@ export struct Environment {
 
             // 天气模块
             Column() {
-              Text("温度：13°C")
+              Text("温度：" + '13.3℃' )
                 .fontSize(30)
                 .fontColor(Color.White)
                 .margin({ bottom: 15 })
@@ -200,7 +210,7 @@ export struct Environment {
                 .backgroundColor('#eac694')
 
 
-                Text("26°C")
+                Text((this.airArr.length != 0 && !this.airArr[0].isEmpty() ? this.airArr[0].air_temp.toString() : '26') + "℃")
                   .fontSize(30)
                   .fontColor(Color.White)
               }
@@ -246,12 +256,12 @@ export struct Environment {
                 .borderRadius(999)
                 .backgroundColor('#6ebaea')
 
-                Text("85%")
+                Text((this.airArr.length != 0 && !this.airArr[0].isEmpty() ? this.airArr[0].air_humid.toString() : '85') + "%")
                   .fontSize(30)
                   .fontColor(Color.White)
               }
 
-              Text("湿度正常")
+              Text(this.airArr.length != 0 && !this.airArr[0].isEmpty() ? this.airArr[0].air_humid < 40 ? "湿度正常偏低" : "湿度正常" : "湿度正常")
                 .fontSize(30)
                 .fontColor(Color.White)
                 .fontWeight(FontWeight.Bold)
@@ -321,7 +331,7 @@ export struct Environment {
                           .fontSize(22)
                           .fontColor(Color.White)
 
-                        Text("22°C")
+                        Text((this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].temperature_value.toString() : '22') + "℃")
                           .fontSize(22)
                           .fontColor(Color.White)
 
@@ -347,7 +357,7 @@ export struct Environment {
                           .fontSize(22)
                           .fontColor(Color.White)
 
-                        Text("80%")
+                        Text((this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].moisture_value.toString() : '80') + "%")
                           .fontSize(22)
                           .fontColor(Color.White)
                       }
@@ -428,7 +438,7 @@ export struct Environment {
                     .fontSize(25)
                     .fontColor(Color.White)
 
-                  Text("8.1")
+                  Text((this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].pH_value.toString() : '8.1') )
                     .fontSize(25)
                     .fontColor(Color.White)
                 }
@@ -456,7 +466,7 @@ export struct Environment {
                     .padding({ left: 10 })
 
                   Row({space:10}) {
-                    this.myText("氮（N）: 36%")
+                    this.myText("氮（N）: "+ (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].nitrogen.toString() : '36') +"%")
                     Text("正常")
                       .fontSize(22)
                       .fontWeight(800)
@@ -464,7 +474,7 @@ export struct Environment {
                   }
 
                   Row({space:10}) {
-                    this.myText("磷（P）: 17%")
+                    this.myText("磷（P）: " + (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].phosphorus.toString() : '25') + "%")
                     Text("偏低")
                       .fontSize(22)
                       .fontWeight(800)
@@ -472,7 +482,7 @@ export struct Environment {
                   }
 
                   Row({space:10}) {
-                    this.myText("钾（K）: 24%")
+                    this.myText("钾（K）: "+ (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].potassium.toString() : '24') + "%")
                     Text("正常")
                       .fontSize(22)
                       .fontWeight(800)

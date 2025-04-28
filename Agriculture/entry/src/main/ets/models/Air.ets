@@ -67,6 +67,7 @@ export class Air {
             try {
               let result = data.result as string;
               let parsedData: AirData[] = JSON.parse(result);
+              console.log("Air", JSON.stringify(parsedData))
               arr = Array.isArray(parsedData) ? parsedData.map((item: AirData) => new Air(item)) : [];
               console.log('[Air getDataArr] 解析成功，准备 resolve, 解析数据如下:', JSON.stringify(arr))
               resolve(arr);
@@ -119,3 +120,4 @@ function formatDate(date: Date): string {
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+

@@ -11,6 +11,9 @@ import RdbUtils from '../common/rdbUtils/RdbUtils';
 
 export default class EntryAbility extends UIAbility {
   async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    AppStorage.setOrCreate('AirData', [])
+    AppStorage.setOrCreate('SoilData', [])
+
     let input = await this.context.resourceManager.getRawFileContent('agconnect-services.json');
     let jsonString = util.TextDecoder.create('utf-8', {
       ignoreBOM: true
@@ -27,6 +30,8 @@ export default class EntryAbility extends UIAbility {
   }
 
   async onWindowStageCreate(windowStage: window.WindowStage): Promise<void> {
+
+    windowStage.getMainWindowSync().setWindowSystemBarEnable([])
 
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');

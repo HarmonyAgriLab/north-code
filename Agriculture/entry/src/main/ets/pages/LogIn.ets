@@ -5,6 +5,7 @@ import window from '@ohos.window';
 import AGCCloud from '../AGC-Cloud/AGC-Cloud';
 import { BreakpointKey, BreakpointSystem } from '../common/breakpointsystem'
 import { Air } from '../models/Air'
+import { Soil } from '../models/Soil';
 
 @Entry
 @Component
@@ -17,6 +18,9 @@ struct LogIn {
   @State verifyCodeButtonText: string = '获取验证码' // 获取验证码按钮文本
   @State verifyCodeButtonEnable: boolean = true // 验证码按钮可用状态
   @State loginEnable: boolean = false // 登录成功状态1
+
+  @StorageLink('AirData') airData: Air[] = []
+  @StorageLink('SoilData') soilData: Soil[] = []
 
   // 1. 引入 AppStorage 中保存的断点值
   @StorageLink(BreakpointKey)
@@ -140,28 +144,34 @@ struct LogIn {
           .enabled(!this.loginEnable)
           .backgroundColor('#ff266f47')
           .onClick(
-            //   async () => {
-            //   let result = await AGCCloud.createUser(this.phoneNumber, this.verifyCode) // 判断验证码是否正确并登录
-            //   this.loginEnable = result.loginEnable
-            //   if (this.loginEnable) {
-            //     // 登录成功跳转进入主页
-            //     router.replaceUrl({
-            //       url: 'pages/index'
-            //     }).then(() => {
-            //       // 登录成功弹窗
-            //       promptAction.showToast({
-            //         message: '登录成功',
-            //         duration: 2000
-            //       })
-            //     })
-            //   }
-            //
-            // }
-            () => {
-              router.pushUrl({
-                url:'pages/index'
-              })
+            async () => {
+              let result = await AGCCloud.createUser(this.phoneNumber, this.verifyCode) // 判断验证码是否正确并登录
+              this.loginEnable = result.loginEnable
+              if (this.loginEnable) {
+                promptAction.showToast({
+                  message: '正在获取数据',
+                  duration: 2000
+                })
+                this.airData = await Air.getDataArr()
+                this.soilData = await Soil.getDataArr()
+                // 登录成功跳转进入主页
+                router.replaceUrl({
+                  url: 'pages/index'
+                }).then(() => {
+                  // 登录成功弹窗
+                  promptAction.showToast({
+                    message: '登录成功',
+                    duration: 2000
+                  })
+                })
+              }
+
             }
+            // () => {
+            //   router.pushUrl({
+            //     url:'pages/index'
+            //   })
+            // }
           )
 
         }

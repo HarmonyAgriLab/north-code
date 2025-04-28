@@ -1,4 +1,6 @@
 import { BreakpointKey, BreakpointSystem, BreakPointType } from '../common/breakpointsystem'
+import { Air } from '../models/Air'
+import { Soil } from '../models/Soil'
 
 @Preview
 @Component
@@ -8,6 +10,9 @@ export struct devices {
   currentBreakpoint: string = 'lg'
   // 2. 实例化 BreakpointSystem对象
   breakpointSystem: BreakpointSystem = new BreakpointSystem()
+
+  @Consume airArr: Air[]
+  @Consume soilArr: Soil[]
 
   // 3. 注册及移除事件
   aboutToAppear(): void {
@@ -36,8 +41,8 @@ export struct devices {
               .padding({left: 10})
             Image($r('app.media.soil'))
               .width(95)
-            this.myText("土壤湿度: 42.1%")
-            this.myText("土壤pH值: 6.8")
+            this.myText("土壤湿度:" + (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].moisture_value.toString() : '80') + "%")
+            this.myText("土壤pH值:"  + (this.soilArr.length != 0 && !this.soilArr[0].isEmpty() ? this.soilArr[0].pH_value.toString() : '3.2'))
             this.myText("土壤状况: 缺水")
 
           }

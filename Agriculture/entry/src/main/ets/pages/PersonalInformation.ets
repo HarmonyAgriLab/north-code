@@ -21,142 +21,82 @@ export struct PeronsalInformation {
 
 
   build() {
-    Scroll() {
-      Column({space:80}) {
-        // 顶部
-        // Row() {
-        //   Row() {
-        //     Image($r('app.media.back'))
-        //       .width(25)
-        //       .aspectRatio(1)
-        //       .onClick(() => {
-        //         router.back()
-        //       })
-        //   }
-        //   .position({ x: 15, y: 17 })
-        //
-        //   Row() {
-        //     Text('设置')
-        //       .fontSize(25)
-        //       .fontWeight(FontWeight.Bold)
-        //       .align(Alignment.Center)
-        //   }
-        // }
-        // .width('100%')
-        // .height(60)
-        // .backgroundColor('#fff')
-        // .justifyContent(FlexAlign.Center)
+    Column() {
+      Row() {
+        Image($r('app.media.back'))
+          .width(25)
+          .aspectRatio(1)
+          .onClick(() => router.back())
+          .position({ x: 15, y: 17 })
+        Text('个人详情')
+          .fontSize(25)
+          .fontWeight(FontWeight.Bold)
+          .align(Alignment.Center)
+      }
+      .width('100%')
+      .height(60)
+      .backgroundColor('#fff')
+      .justifyContent(FlexAlign.Center)
+      .borderWidth({bottom:1})
+      .borderColor('#f4f4f4')
 
-        Row() {
-          Image($r('app.media.back'))
-            .width(25)
-            .aspectRatio(1)
-            .onClick(() => router.back())
-            .position({ x: 15, y: 17 })
-          Text('修改个人信息')
-            .fontSize(25)
-            .fontWeight(FontWeight.Bold)
-            .align(Alignment.Center)
-        }
-        .width('100%')
-        .height(60)
-        .backgroundColor('#fff')
-        .justifyContent(FlexAlign.Center)
-
+      Scroll() {
         Column({ space: 50 }) {
           Column() {
-            Column() {
-              Text('个人信息')
-                .fontSize(20)
-            }
-            .height(40)
-            .justifyContent(FlexAlign.Center)
-            .width('100%')
-
-            // ListIteminformation({
-            //   title: '账号名',
-            //   information: this.userAccount.name,
-            //   onChange: (value: string) => {
-            //     this.userAccount.name = value
-            //   }
-            // })
-            // ListIteminformation({
-            //   title: '昵称',
-            //   information: this.userAccount.nickname,
-            //   onChange: (value: string) => {
-            //     this.userAccount.nickname = value
-            //   }
-            // })
-            // ListIteminformation({
-            //   title: '性别',
-            //   information: this.userAccount.sex,
-            //   onChange: (value: string) => {
-            //     this.userAccount.sex = value
-            //   }
-            // })
-
-            // 修改信息输入框
-            TextInput({ text: this.userAccount['name'] })
-              .onChange((value: string) => {
-                this.userAccount['name'] = value
-              })
-
-            TextInput({ text: this.userAccount['nickname'] })
-              .onChange((value: string) => {
-                this.userAccount['nickname'] = value
-              })
-
-            TextInput({ text: this.userAccount['sex'] })
-              .onChange((value: string) => {
-                this.userAccount['sex'] = value
-              })
+            ListItemSettings({ title: '头像'})
+            ListItemSettings({ title: '姓名', information: '张三丰' })
+            ListItemSettings({ title: '性别', information: '男' })
+            ListItemSettings({ title: '学号', information: '114514910' })
+            ListItemSettings({ title: '联系方式', information: '520****1314' })
 
           }
-          .width('90%')
+          .width('100%')
+          .height('100%')
           .backgroundColor('#fff')
           .borderRadius(20)
 
-          // 确认按钮
-          Button('确认')
-            .onClick(() => {
-              console.log('修改信息已保存:', JSON.stringify(this.userAccount))
-              router.back({
-                url:'',
-                params: {
-                  userAccount: this.userAccount,
-                }
-              })
-            })
-
         }
       }
+      .align(Alignment.Top)
+      .scrollBar(BarState.Off)
+      .height('100%')
+      .width('100%')
+      .backgroundColor('#ff6cae7a')
     }
-    .align(Alignment.Top)
-    .scrollBar(BarState.Off)
-    .height('100%')
-    .width('100%')
-    .backgroundColor('#ff6cae7a')
   }
 }
 
+
 @Component
 struct ListItemSettings {
-  private title: string = '';
+  private title: string = ''
+  private information: string | Resource = ''
 
   build() {
     Row() {
       Text(this.title)
         .fontSize(16)
-      Image($r('app.media.ic_arrow'))
-        .width(24)
-        .fillColor(Color.Black)
-        .aspectRatio(1)
+
+      if (this.title == '头像') {
+        Image($r('app.media.BDI'))
+          .width(40)
+          .aspectRatio(1)
+          .borderRadius(20)
+          .borderWidth(2)
+          .borderColor('#d37036')
+      } else {
+        Text(this.information)
+          .fontSize(16)
+          .textAlign(TextAlign.End) // 关键修改：文本右对齐
+          .layoutWeight(1) // 占据剩余空间
+      }
     }
-    .width('90%')
-    .height(50)
-    .padding({left:20,right:20})
+    .width('100%')
+    .height(60)
+    .padding({left:20, right:20})
+    .borderWidth({bottom:1})
+    .borderColor('#f4f4f4')
     .justifyContent(FlexAlign.SpaceBetween)
-    .borderRadius(20)
     .backgroundColor('#fff')
   }
 }
@@ -185,29 +125,6 @@ struct ListIteminformation {
         .onChange((value: string) => {
           this.onChange(value)
         })
-
-      // .onChange((value: string) => {
-      //   if (this.number == 1) {
-      //     this.userAccount.name = value
-      //   } else if (this.number == 2) {
-      //     this.userAccount.nickname = value
-      //   } else if (this.number == 3) {
-      //     this.userAccount.sex = value
-      //   }
-      // });
-
-      // if(this.number == 1 && this.isNicknameClean) {
-      //   Image($r('app.media.clean'))
-      //     .width(24)
-      //     .aspectRatio(1)
-      //     .fillColor('#ccc')
-      //     .onClick(()=>{
-      //       this.NicknameText = ''
-      //     })
-      // }
-
-
-
     }
     .width('100%')
     .borderWidth({top:1})
