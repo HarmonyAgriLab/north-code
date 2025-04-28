@@ -10,6 +10,7 @@ import relationalStore from '@ohos.data.relationalStore' // 导入模块
 import RdbUtils from '../common/rdbUtils/RdbUtils'
 import { Air } from '../models/Air'
 import { Soil } from '../models/Soil'
+import { async } from '@hw-agconnect/cloud/src/main/ets/storage/upload/task'
 
 
 @Entry
@@ -23,11 +24,28 @@ struct Index {
   // 2. 实例化 BreakpointSystem对象
   breakpointSystem: BreakpointSystem = new BreakpointSystem()
 
+  @Provide airArr: Air[] = []
+  @Provide soilArr: Soil[] = []
+
   // 3. 注册及移除事件
-  aboutToAppear(): void {
+  async aboutToAppear(): Promise<void> {
     this.breakpointSystem.register()
     this.initAirTable()
     this.initSoilTable()
+
+    this.airArr = AppStorage.get('AirData')
+    this.soilArr = AppStorage.get('SoilData')
+
+
+
+    if(this.airArr.length == 0){
+      this.airArr = await Air.getDataArr()
+    }
+    if(this.soilArr.length == 0){
+      this.soilArr = await Soil.getDataArr()
+    }
+    console.log("aaatest", this.airArr.toString())
+    console.log("aaatest", this.soilArr.toString())
 
   }
 
@@ -154,3 +172,4 @@ function openDialog(text: string) {
     }
   )
 }
+

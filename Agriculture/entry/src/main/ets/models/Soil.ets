@@ -13,6 +13,7 @@ export class SoilData {
   supload_time: Date;
 }
 
+@Observed
 export class Soil {
   sid: number = null;
   moisture_value: number = null;
@@ -87,6 +88,7 @@ export class Soil {
             try {
               let result = data.result as string;
               let parsedData: SoilData[] = JSON.parse(result);
+              console.log("Soil", JSON.stringify(parsedData))
               arr = Array.isArray(parsedData) ? parsedData.map((item: SoilData) => new Soil(item)) : [];
               console.log('[Soil getDataArr] 解析成功，准备 resolve, 解析数据如下:', JSON.stringify(arr))
               resolve(arr);
