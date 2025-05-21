@@ -43,7 +43,7 @@ cd agriculture
 
 2. **打开 DevEco Studio**
 
-使用 DevEco Studio 打开 `Agriculture` 目录，首次会自动同步依赖和构建配置。
+使用 DevEco Studio 打开 `Agriculture` 目录，首次会自动同步依赖和构建配置。\n
 首次运行项目需要手动设置 Node.js 路径。
 
 3. **连接设备或模拟器并运行**
