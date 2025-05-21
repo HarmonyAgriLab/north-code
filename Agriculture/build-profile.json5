@@ -4,13 +4,13 @@
       {
         "name": "default",
         "material": {
-          "certpath": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.cer",
-          "storePassword": "0000001B43E3C3B8B3C232542273EED6347C1F01549B8108E5312DC7BB4AAF86EF11ECB1750E5D08CE741A",
+          "certpath": "C:\\Users\\zijie\\.ohos\\config\\openharmony\\auto_ohos_default_Agriculture_com.fsr.agriculture.cer",
+          "storePassword": "0000001B1D4E4F6C5D644A5C93D43ECF67E10D8F17C00E18AFBA4C1AA852960AFA1120EC09E3A927861830",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B100554C499E13F88AA687048C89F93560BCE9570EB8209FF380D1E6D28968843433F503FE4A08A",
-          "profile": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.p7b",
+          "keyPassword": "0000001BACD8A269D5B1326733C8096311B6C3BA3BE9D4472DD9C1151E60B45352306EEF427DCE57E62B9D",
+          "profile": "C:\\Users\\zijie\\.ohos\\config\\openharmony\\auto_ohos_default_Agriculture_com.fsr.agriculture.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:/Users/HP/.ohos/config/openharmony/default_Agriculture_zpvJV8NSdvQHJ34b2lQ8xPdSLsdFfFcRE3qwz90rvno=.p12"
+          "storeFile": "C:\\Users\\zijie\\.ohos\\config\\openharmony\\auto_ohos_default_Agriculture_com.fsr.agriculture.p12"
         }
       }
     ],
