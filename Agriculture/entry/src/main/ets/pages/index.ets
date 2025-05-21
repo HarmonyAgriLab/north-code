@@ -44,8 +44,6 @@ struct Index {
     if(this.soilArr.length == 0){
       this.soilArr = await Soil.getDataArr()
     }
-    console.log("aaatest", this.airArr.toString())
-    console.log("aaatest", this.soilArr.toString())
 
   }
 
@@ -172,4 +170,3 @@ function openDialog(text: string) {
     }
   )
 }
-

@@ -144,7 +144,7 @@ struct LogIn {
           .enabled(!this.loginEnable)
           .backgroundColor('#ff266f47')
           .onClick(
-            async () => {
+              async () => {
               let result = await AGCCloud.createUser(this.phoneNumber, this.verifyCode) // 判断验证码是否正确并登录
               this.loginEnable = result.loginEnable
               if (this.loginEnable) {

@@ -2,6 +2,7 @@
   "src": [
     "pages/LogIn",
     "pages/index",
+    "pages/PersonalInformation0",
     "pages/PersonalInformation"
   ]
 }

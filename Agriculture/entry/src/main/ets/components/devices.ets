@@ -1,6 +1,10 @@
 import { BreakpointKey, BreakpointSystem, BreakPointType } from '../common/breakpointsystem'
 import { Air } from '../models/Air'
+import { CeilingControl } from '../models/CeilingControl'
+import { CurtainControl, FanControl } from '../models/FanControl'
 import { Soil } from '../models/Soil'
+import promptAction from '@ohos.promptAction';
+import { HeaterControl } from '../models/HeaterControl'
 
 @Preview
 @Component
@@ -86,15 +90,62 @@ export struct devices {
 
         ListItem() {
           Column({ space: 10 }) {
-            Text("照明设备1")
+            Text("顶棚设备")
               .fontSize(25)
               .alignSelf(ItemAlign.Start)
               .padding({left: 10})
-            Image($r('app.media.linw'))
+            Image($r('app.media.ceiling_icon'))
               .width(95)
-            this.myText("设备电压: 121V")
-            this.myText("设备使能: 开")
-            this.myText("土壤状况: 电压过低")
+            Button('开')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await CeilingControl.openCeiling(); // 打开排风扇
+                  console.log('Ceiling 顶棚操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Ceiling 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+            Button('关')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await CeilingControl.closeCeiling();
+                  console.log('Ceiling 顶棚操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Ceiling 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
 
           }
           .width(320)
@@ -108,15 +159,62 @@ export struct devices {
 
         ListItem() {
           Column({ space: 10 }) {
-            Text("照明设备2")
+            Text("遮阳帘设备")
               .fontSize(25)
               .alignSelf(ItemAlign.Start)
               .padding({left: 10})
-            Image($r('app.media.linw'))
+            Image($r('app.media.curtain_icon'))
               .width(95)
-            this.myText("设备电压: 217V")
-            this.myText("设备使能: 开")
-            this.myText("土壤状况: 正常")
+            Button('开')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await CurtainControl.openCurtain();
+                  console.log('Curtain 遮阳帘操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Curtain 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+            Button('关')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await CurtainControl.closeCurtain();
+                  console.log('Curtain 遮阳帘操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Curtain 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
 
           }
           .width(320)
@@ -127,6 +225,145 @@ export struct devices {
           .opacity(0.8)
           .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
         }
+
+        ListItem() {
+          Column({ space: 10 }) {
+            Text("风扇设备")
+              .fontSize(25)
+              .alignSelf(ItemAlign.Start)
+              .padding({left: 10})
+            Image($r('app.media.fan_icon'))
+              .width(95)
+            Button('开')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await FanControl.openFan(); // 打开排风扇
+                  console.log('Ceiling 排风扇操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Ceiling 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+            Button('关')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await FanControl.closeFan(); // 打开排风扇
+                  console.log('Ceiling 排风扇操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Ceiling 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+
+          }
+          .width(320)
+          .height(300)
+          .borderRadius(10)
+          .justifyContent(FlexAlign.SpaceEvenly)
+          .backgroundColor("#ffe2e2ac")
+          .opacity(0.8)
+          .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+        }
+
+        ListItem() {
+          Column({ space: 10 }) {
+            Text("地暖")
+              .fontSize(25)
+              .alignSelf(ItemAlign.Start)
+              .padding({left: 10})
+            Image($r('app.media.heater_icon'))
+              .width(95)
+            Button('开')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await HeaterControl.openHeater();
+                  console.log('Heater 地暖操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Heater 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+            Button('关')
+              .width(280)
+              .height(60)
+              .borderRadius(15)
+              .backgroundColor(Color.White)
+              .fontColor(Color.Black)
+              .fontSize(28)
+              .fontWeight(FontWeight.Bold)
+              .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+              .onClick(async ()=>{
+                try {
+                  const result = await HeaterControl.closeHeater(); // 打开排风扇
+                  console.log('Heater 地暖操操作结果:', result);
+                  promptAction.showToast({
+                    message: '操作成功',
+                    duration: 2000
+                  })
+                } catch (error) {
+                  console.error('Heater 操作失败:', JSON.stringify(error));
+                  promptAction.showToast({
+                    message: '操作失败',
+                    duration: 2000
+                  })
+                }
+              })
+
+          }
+          .width(320)
+          .height(300)
+          .borderRadius(10)
+          .justifyContent(FlexAlign.SpaceEvenly)
+          .backgroundColor("#ffe2e2ac")
+          .opacity(0.8)
+          .shadow({ radius: 6, color: '#1F000000', offsetX: 2, offsetY: 4 })
+        }
+
       }
       .alignListItem(ListItemAlign.Center)
       .lanes(this.currentBreakpoint == 'sm' ? 1 : 2, 3)
