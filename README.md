@@ -26,7 +26,7 @@ Agriculture/
 
 - 操作系统：Windows / macOS / Linux
 - 开发工具：DevEco Studio 4.0+
-- HarmonyOS SDK：API Version 9 或以上
+- HarmonyOS SDK：API Version 10
 - Node.js：16+（用于构建工具 hvigor）
 - HMS Core SDK：如有使用系统能力需引入
 
@@ -44,6 +44,7 @@ cd agriculture
 2. **打开 DevEco Studio**
 
 使用 DevEco Studio 打开 `Agriculture` 目录，首次会自动同步依赖和构建配置。
+首次运行项目需要手动设置 Node.js 路径。
 
 3. **连接设备或模拟器并运行**
 
