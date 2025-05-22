@@ -59,7 +59,6 @@ cd agriculture
 | `entry/src/main/resources` | 多语言资源文件、图片资源等 |
 | `AppScope/` | 应用的权限申请、模块配置、设备能力声明等 |
 | `hvigor/` | 自定义构建任务配置（如签名、打包优化） |
-
 | `entry/src/main/ets/model` | 设备控制模块（顶棚、地暖、遮阳伞等控制逻辑） |
 | `entry/src/main/ets/pages` | 数据可视化展示、图表数据展示、界面UI |
 
